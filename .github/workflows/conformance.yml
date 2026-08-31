@@ -30,10 +30,19 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
+          mkdir -p "$RUNNER_TEMP/gooo-improvement-proposer-${GITHUB_RUN_ID}"
           test "$(go env GOVERSION)" = "go1.27.0"
-          test -z "$(gofmt -l cmd internal)"
+          gofmt_files="$(gofmt -l cmd internal)"
+          if test -n "$gofmt_files"; then
+            gofmt -d $gofmt_files | tee "$RUNNER_TEMP/gooo-improvement-proposer-${GITHUB_RUN_ID}/gofmt.diff"
+            exit 1
+          fi
           go fix ./...
-          test -z "$(gofmt -l cmd internal)"
+          gofmt_files="$(gofmt -l cmd internal)"
+          if test -n "$gofmt_files"; then
+            gofmt -d $gofmt_files | tee "$RUNNER_TEMP/gooo-improvement-proposer-${GITHUB_RUN_ID}/gofmt-after-fix.diff"
+            exit 1
+          fi
           git diff --exit-code
 
       - name: Run vet gate
