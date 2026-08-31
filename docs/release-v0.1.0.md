@@ -17,6 +17,23 @@ This tag/object/target and failed run are a `FAILED_RELEASE_TRIGGER`
 counterexample. They are not used as successful release evidence and are not
 deleted, force-moved, or recreated.
 
+## v0.1.1 initial failed attempt
+
+The first v0.1.1 tag-triggered run also remains in Actions history while the
+release workflow is corrected. It failed before publishing assets because the
+checkout action temporarily represented the annotated tag ref as its commit
+target. The tag itself remains intact:
+
+```text
+tag: v0.1.1
+tag target commit: 6757651d5b6abae7dfb7c7a3ec7a0cab103e3279
+failed workflow run: 33397076212
+release: absent at the time of the failed run
+```
+
+The workflow now checks out the explicit annotated tag ref and supports a
+manual retry for that existing tag.
+
 ## v0.1.1 success contract
 
 The successful release is published from a new annotated tag after the
