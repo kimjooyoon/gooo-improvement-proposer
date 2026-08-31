@@ -1,0 +1,52 @@
+name: Proposer conformance
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gooo-improvement-proposer-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Go 1.27
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.27.x'
+          cache: false
+
+      - name: Run format and fix gates
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test "$(go env GOVERSION)" = "go1.27.0"
+          test -z "$(gofmt -l cmd internal)"
+          go fix ./...
+          test -z "$(gofmt -l cmd internal)"
+          git diff --exit-code
+
+      - name: Run vet gate
+        run: go vet ./...
+
+      - name: Run build, test, compiler, and conformance gates
+        run: bash scripts/ci-conformance.sh
+
+      - name: Upload evidence and failed-attempt context
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gooo-improvement-proposer-ci-${{ github.run_id }}
+          path: ${{ runner.temp }}/gooo-improvement-proposer-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,8 @@
+{
+  "schema":"gooo/improvement-proposer/protocol/v1/input/v1",
+  "case_id":"refuted-utility-record",
+  "ledger":{"release":{"repository":"kimjooyoon/gooo-self-improvement-ledger","tag":"v0.11.0","commit_sha":"e7e408f6631a6b54effa9a9da9bb33947b35cb09","asset":"gooo-self-improvement-ledger-v0.11.0-evidence.zip","asset_digest":"sha256:cd09cad33a0934f8bdadcec2be8a1ad2feded92d504bbca7a76bb85e611901b4","ledger_digest":"sha256:cd09cad33a0934f8bdadcec2be8a1ad2feded92d504bbca7a76bb85e611901b4","immutable":true},"expected_tag":"v0.11.0","expected_commit_sha":"e7e408f6631a6b54effa9a9da9bb33947b35cb09","expected_ledger_digest":"sha256:cd09cad33a0934f8bdadcec2be8a1ad2feded92d504bbca7a76bb85e611901b4"},
+  "capabilities":[{"record_id":"capability-record-utility-refuted","capability_id":"capability.utility-refuted","state":"CLOSED","source_cell":"cell-03","evidence_digest":"sha256:9999999999999999999999999999999999999999999999999999999999999999","record_digest":"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","reason":"CLOSED","blocked_by":[]}],
+  "counterexamples":[],
+  "utilities":[{"record_id":"utility-record-refuted","capability_id":"capability.utility-refuted","state":"REFUTED","source_cell":"cell-05","evidence_digest":"sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","record_digest":"sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc","before":{"memory_kib":70,"build_wall_ms":80,"test_wall_ms":90,"conformance_wall_ms":100},"after":{"memory_kib":71,"build_wall_ms":81,"test_wall_ms":91,"conformance_wall_ms":101}}]
+}

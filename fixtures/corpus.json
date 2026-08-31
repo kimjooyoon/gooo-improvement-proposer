@@ -1,0 +1,17 @@
+{
+  "schema": "gooo/improvement-proposer/protocol/v1/corpus/v1",
+  "corpus_id": "gooo-improvement-proposer-corpus-v1",
+  "denominator_id": "gooo-improvement-proposer-v1",
+  "total": 9,
+  "cases": [
+    {"ordinal":1,"case_id":"normal-zero-candidates","class":"normal","input":"fixtures/cases/normal-zero-candidates.json","expected_state":"CLOSED","expected_candidate_count":0,"expected_blocked_frontier":0},
+    {"ordinal":2,"case_id":"normal-empty-frontier","class":"normal","input":"fixtures/cases/normal-empty-frontier.json","expected_state":"CLOSED","expected_candidate_count":0,"expected_blocked_frontier":0},
+    {"ordinal":3,"case_id":"normal-deterministic-replay","class":"normal","input":"fixtures/cases/normal-deterministic-replay.json","expected_state":"CLOSED","expected_candidate_count":0,"expected_blocked_frontier":0},
+    {"ordinal":4,"case_id":"unknown-minimal-blocked-frontier","class":"unknown","input":"fixtures/cases/unknown-minimal-blocked-frontier.json","expected_state":"UNKNOWN","expected_candidate_count":1,"expected_blocked_frontier":1},
+    {"ordinal":5,"case_id":"unknown-stale-ledger","class":"unknown","input":"fixtures/cases/unknown-stale-ledger.json","expected_state":"UNKNOWN","expected_candidate_count":0,"expected_blocked_frontier":1},
+    {"ordinal":6,"case_id":"unknown-missing-utility","class":"unknown","input":"fixtures/cases/unknown-missing-utility.json","expected_state":"UNKNOWN","expected_candidate_count":1,"expected_blocked_frontier":0},
+    {"ordinal":7,"case_id":"refuted-known-contradiction","class":"refuted","input":"fixtures/cases/refuted-known-contradiction.json","expected_state":"REFUTED","expected_candidate_count":0,"expected_blocked_frontier":0},
+    {"ordinal":8,"case_id":"refuted-capability-record","class":"refuted","input":"fixtures/cases/refuted-capability-record.json","expected_state":"REFUTED","expected_candidate_count":1,"expected_blocked_frontier":0},
+    {"ordinal":9,"case_id":"refuted-utility-record","class":"refuted","input":"fixtures/cases/refuted-utility-record.json","expected_state":"REFUTED","expected_candidate_count":1,"expected_blocked_frontier":0}
+  ]
+}
