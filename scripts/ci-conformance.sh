@@ -111,17 +111,17 @@ jq -S -n \
 cat > "$evidence/summary.md" <<EOF
 # gooo-improvement-proposer CI summary
 
-- decision: `PROPOSER_CONFORMANCE_CLOSED`
-- fixed denominator: `12/12`
-- candidate count: `$candidate_count`
-- evidence edges: `$evidence_edges`
-- blocked frontier: `$blocked_frontier`
-- output files: `$output_files`
-- repository writes: `0`
-- pull-request creations: `0`
-- merge operations: `0`
-- local test executions: `0`
-- cross-project required gates: `0`
+- decision: \`PROPOSER_CONFORMANCE_CLOSED\`
+- fixed denominator: \`12/12\`
+- candidate count: \`$candidate_count\`
+- evidence edges: \`$evidence_edges\`
+- blocked frontier: \`$blocked_frontier\`
+- output files: \`$output_files\`
+- repository writes: \`0\`
+- pull-request creations: \`0\`
+- merge operations: \`0\`
+- local test executions: \`0\`
+- cross-project required gates: \`0\`
 EOF
 
 printf 'evidence=%s\n' "$evidence"
