@@ -3,6 +3,12 @@ name: Immutable proposer release
 on:
   push:
     tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Existing annotated v* tag to release or retry"
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -10,10 +16,13 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    env:
+      RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
     steps:
       - name: Check out annotated tag
         uses: actions/checkout@v4
         with:
+          ref: refs/tags/${{ inputs.release_tag || github.ref_name }}
           fetch-depth: 0
 
       - name: Set up Go 1.27
@@ -27,21 +36,26 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
-          test "$(git cat-file -t "refs/tags/$GITHUB_REF_NAME")" = tag
-          commit_sha="$(git rev-parse "refs/tags/$GITHUB_REF_NAME^{commit}")"
+          case "$RELEASE_TAG" in
+            v*) ;;
+            *) echo "release tag must start with v: $RELEASE_TAG" >&2; exit 1 ;;
+          esac
+          tag_ref="refs/tags/$RELEASE_TAG"
+          test "$(git cat-file -t "$tag_ref")" = tag
+          commit_sha="$(git rev-parse "$tag_ref^{commit}")"
           test "$commit_sha" = "$(git rev-parse HEAD)"
           test "$(go env GOVERSION)" = "go1.27.0"
           test -z "$(gofmt -l cmd internal)"
           go vet ./...
           bash scripts/ci-conformance.sh
           evidence_root="$RUNNER_TEMP/gooo-improvement-proposer-${GITHUB_RUN_ID}/evidence"
-          source_asset="gooo-improvement-proposer-${GITHUB_REF_NAME}.tar.gz"
-          evidence_asset="gooo-improvement-proposer-${GITHUB_REF_NAME}-evidence.tar.gz"
-          git archive --format=tar.gz --prefix="gooo-improvement-proposer-${GITHUB_REF_NAME}/" "$commit_sha" > "$RUNNER_TEMP/$source_asset"
+          source_asset="gooo-improvement-proposer-${RELEASE_TAG}.tar.gz"
+          evidence_asset="gooo-improvement-proposer-${RELEASE_TAG}-evidence.tar.gz"
+          git archive --format=tar.gz --prefix="gooo-improvement-proposer-${RELEASE_TAG}/" "$commit_sha" > "$RUNNER_TEMP/$source_asset"
           tar -C "$evidence_root" -czf "$RUNNER_TEMP/$evidence_asset" .
           source_digest="sha256:$(sha256sum "$RUNNER_TEMP/$source_asset" | awk '{print $1}')"
           evidence_digest="sha256:$(sha256sum "$RUNNER_TEMP/$evidence_asset" | awk '{print $1}')"
-          jq -S -n --arg schema "gooo/improvement-proposer/release-manifest/v1" --arg tag "$GITHUB_REF_NAME" --arg commit_sha "$commit_sha" --arg source_asset "$source_asset" --arg source_digest "$source_digest" --arg evidence_asset "$evidence_asset" --arg evidence_digest "$evidence_digest" '{schema:$schema,tag:$tag,commit_sha:$commit_sha,source_asset:$source_asset,source_asset_digest:$source_digest,evidence_asset:$evidence_asset,evidence_asset_digest:$evidence_digest,immutable:true,authority:{repository_writes:0,pull_request_creations:0,merge_operations:0,local_test_executions:0,cross_project_required_gates:0}}' > "$RUNNER_TEMP/release-manifest.json"
+          jq -S -n --arg schema "gooo/improvement-proposer/release-manifest/v1" --arg tag "$RELEASE_TAG" --arg commit_sha "$commit_sha" --arg source_asset "$source_asset" --arg source_digest "$source_digest" --arg evidence_asset "$evidence_asset" --arg evidence_digest "$evidence_digest" '{schema:$schema,tag:$tag,commit_sha:$commit_sha,source_asset:$source_asset,source_asset_digest:$source_digest,evidence_asset:$evidence_asset,evidence_asset_digest:$evidence_digest,immutable:true,authority:{repository_writes:0,pull_request_creations:0,merge_operations:0,local_test_executions:0,cross_project_required_gates:0}}' > "$RUNNER_TEMP/release-manifest.json"
           sha256sum "$RUNNER_TEMP/$source_asset" "$RUNNER_TEMP/$evidence_asset" "$RUNNER_TEMP/release-manifest.json" | sed "s#  $RUNNER_TEMP/#  #" > "$RUNNER_TEMP/SHA256SUMS"
           echo "source_asset=$source_asset" >> "$GITHUB_OUTPUT"
           echo "evidence_asset=$evidence_asset" >> "$GITHUB_OUTPUT"
@@ -51,4 +65,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -Eeuo pipefail
-          gh release create "$GITHUB_REF_NAME" --verify-tag --title "gooo-improvement-proposer $GITHUB_REF_NAME" --notes "Annotated immutable release for $GITHUB_SHA. Release manifest and SHA256SUMS bind every asset to the tag target." "$RUNNER_TEMP/${{ steps.assets.outputs.source_asset }}" "$RUNNER_TEMP/${{ steps.assets.outputs.evidence_asset }}" "$RUNNER_TEMP/SHA256SUMS" "$RUNNER_TEMP/release-manifest.json"
+          gh release create "$RELEASE_TAG" --verify-tag --title "gooo-improvement-proposer $RELEASE_TAG" --notes "Annotated immutable release for $(git rev-parse "refs/tags/$RELEASE_TAG^{commit}"). Release manifest and SHA256SUMS bind every asset to the tag target." "$RUNNER_TEMP/${{ steps.assets.outputs.source_asset }}" "$RUNNER_TEMP/${{ steps.assets.outputs.evidence_asset }}" "$RUNNER_TEMP/SHA256SUMS" "$RUNNER_TEMP/release-manifest.json"
