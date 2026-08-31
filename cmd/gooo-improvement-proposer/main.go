@@ -170,6 +170,10 @@ func conformance(args []string, stdout, stderr io.Writer) int {
 			return 1
 		}
 		caseDir := filepath.Join(*outputDir, item.CaseID)
+		if err := os.MkdirAll(caseDir, 0o755); err != nil {
+			fmt.Fprintf(stderr, "%s output directory: %v\n", item.CaseID, err)
+			return 1
+		}
 		if err := proposer.WriteEvaluation(caseDir, first); err != nil {
 			fmt.Fprintf(stderr, "%s write: %v\n", item.CaseID, err)
 			return 1
