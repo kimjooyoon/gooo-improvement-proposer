@@ -1,0 +1,8 @@
+{
+  "schema":"gooo/improvement-proposer/protocol/v1/input/v1",
+  "case_id":"normal-deterministic-replay",
+  "ledger":{"release":{"repository":"kimjooyoon/gooo-self-improvement-ledger","tag":"v0.11.0","commit_sha":"e7e408f6631a6b54effa9a9da9bb33947b35cb09","asset":"gooo-self-improvement-ledger-v0.11.0-evidence.zip","asset_digest":"sha256:cd09cad33a0934f8bdadcec2be8a1ad2feded92d504bbca7a76bb85e611901b4","ledger_digest":"sha256:cd09cad33a0934f8bdadcec2be8a1ad2feded92d504bbca7a76bb85e611901b4","immutable":true},"expected_tag":"v0.11.0","expected_commit_sha":"e7e408f6631a6b54effa9a9da9bb33947b35cb09","expected_ledger_digest":"sha256:cd09cad33a0934f8bdadcec2be8a1ad2feded92d504bbca7a76bb85e611901b4"},
+  "capabilities":[{"record_id":"capability-record-replay","capability_id":"capability.replay","state":"CLOSED","source_cell":"cell-03","evidence_digest":"sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd","record_digest":"sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee","reason":"CLOSED","blocked_by":[]}],
+  "counterexamples":[],
+  "utilities":[{"record_id":"utility-record-replay","capability_id":"capability.replay","state":"CLOSED","source_cell":"cell-05","evidence_digest":"sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff","record_digest":"sha256:1111111111111111111111111111111111111111111111111111111111111111","before":{"memory_kib":8,"build_wall_ms":9,"test_wall_ms":10,"conformance_wall_ms":11},"after":{"memory_kib":7,"build_wall_ms":8,"test_wall_ms":9,"conformance_wall_ms":10}}]
+}

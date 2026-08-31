@@ -1,0 +1,8 @@
+{
+  "schema":"gooo/improvement-proposer/protocol/v1/input/v1",
+  "case_id":"unknown-minimal-blocked-frontier",
+  "ledger":{"release":{"repository":"kimjooyoon/gooo-self-improvement-ledger","tag":"v0.11.0","commit_sha":"e7e408f6631a6b54effa9a9da9bb33947b35cb09","asset":"gooo-self-improvement-ledger-v0.11.0-evidence.zip","asset_digest":"sha256:cd09cad33a0934f8bdadcec2be8a1ad2feded92d504bbca7a76bb85e611901b4","ledger_digest":"sha256:cd09cad33a0934f8bdadcec2be8a1ad2feded92d504bbca7a76bb85e611901b4","immutable":true},"expected_tag":"v0.11.0","expected_commit_sha":"e7e408f6631a6b54effa9a9da9bb33947b35cb09","expected_ledger_digest":"sha256:cd09cad33a0934f8bdadcec2be8a1ad2feded92d504bbca7a76bb85e611901b4"},
+  "capabilities":[{"record_id":"capability-record-blocked","capability_id":"capability.blocked","state":"UNKNOWN","source_cell":"cell-03","evidence_digest":"sha256:1111111111111111111111111111111111111111111111111111111111111111","record_digest":"sha256:2222222222222222222222222222222222222222222222222222222222222222","reason":"DEPENDENCY_EVIDENCE_NOT_AVAILABLE","blocked_by":["capability.prerequisite"]}],
+  "counterexamples":[],
+  "utilities":[{"record_id":"utility-record-blocked","capability_id":"capability.blocked","state":"CLOSED","source_cell":"cell-05","evidence_digest":"sha256:3333333333333333333333333333333333333333333333333333333333333333","record_digest":"sha256:4444444444444444444444444444444444444444444444444444444444444444","before":{"memory_kib":20,"build_wall_ms":30,"test_wall_ms":40,"conformance_wall_ms":50},"after":{"memory_kib":19,"build_wall_ms":29,"test_wall_ms":39,"conformance_wall_ms":49}}]
+}
