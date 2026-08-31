@@ -28,7 +28,8 @@ jobs:
         run: |
           set -Eeuo pipefail
           test "$(git cat-file -t "refs/tags/$GITHUB_REF_NAME")" = tag
-          test "$(git rev-parse "refs/tags/$GITHUB_REF_NAME^{commit}")" = "$GITHUB_SHA"
+          commit_sha="$(git rev-parse "refs/tags/$GITHUB_REF_NAME^{commit}")"
+          test "$commit_sha" = "$(git rev-parse HEAD)"
           test "$(go env GOVERSION)" = "go1.27.0"
           test -z "$(gofmt -l cmd internal)"
           go vet ./...
@@ -36,11 +37,11 @@ jobs:
           evidence_root="$RUNNER_TEMP/gooo-improvement-proposer-${GITHUB_RUN_ID}/evidence"
           source_asset="gooo-improvement-proposer-${GITHUB_REF_NAME}.tar.gz"
           evidence_asset="gooo-improvement-proposer-${GITHUB_REF_NAME}-evidence.tar.gz"
-          git archive --format=tar.gz --prefix="gooo-improvement-proposer-${GITHUB_REF_NAME}/" "$GITHUB_SHA" > "$RUNNER_TEMP/$source_asset"
+          git archive --format=tar.gz --prefix="gooo-improvement-proposer-${GITHUB_REF_NAME}/" "$commit_sha" > "$RUNNER_TEMP/$source_asset"
           tar -C "$evidence_root" -czf "$RUNNER_TEMP/$evidence_asset" .
           source_digest="sha256:$(sha256sum "$RUNNER_TEMP/$source_asset" | awk '{print $1}')"
           evidence_digest="sha256:$(sha256sum "$RUNNER_TEMP/$evidence_asset" | awk '{print $1}')"
-          jq -S -n --arg schema "gooo/improvement-proposer/release-manifest/v1" --arg tag "$GITHUB_REF_NAME" --arg commit_sha "$GITHUB_SHA" --arg source_asset "$source_asset" --arg source_digest "$source_digest" --arg evidence_asset "$evidence_asset" --arg evidence_digest "$evidence_digest" '{schema:$schema,tag:$tag,commit_sha:$commit_sha,source_asset:$source_asset,source_asset_digest:$source_digest,evidence_asset:$evidence_asset,evidence_asset_digest:$evidence_digest,immutable:true,authority:{repository_writes:0,pull_request_creations:0,merge_operations:0,local_test_executions:0,cross_project_required_gates:0}}' > "$RUNNER_TEMP/release-manifest.json"
+          jq -S -n --arg schema "gooo/improvement-proposer/release-manifest/v1" --arg tag "$GITHUB_REF_NAME" --arg commit_sha "$commit_sha" --arg source_asset "$source_asset" --arg source_digest "$source_digest" --arg evidence_asset "$evidence_asset" --arg evidence_digest "$evidence_digest" '{schema:$schema,tag:$tag,commit_sha:$commit_sha,source_asset:$source_asset,source_asset_digest:$source_digest,evidence_asset:$evidence_asset,evidence_asset_digest:$evidence_digest,immutable:true,authority:{repository_writes:0,pull_request_creations:0,merge_operations:0,local_test_executions:0,cross_project_required_gates:0}}' > "$RUNNER_TEMP/release-manifest.json"
           sha256sum "$RUNNER_TEMP/$source_asset" "$RUNNER_TEMP/$evidence_asset" "$RUNNER_TEMP/release-manifest.json" | sed "s#  $RUNNER_TEMP/#  #" > "$RUNNER_TEMP/SHA256SUMS"
           echo "source_asset=$source_asset" >> "$GITHUB_OUTPUT"
           echo "evidence_asset=$evidence_asset" >> "$GITHUB_OUTPUT"
