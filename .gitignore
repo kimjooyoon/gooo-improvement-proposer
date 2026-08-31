@@ -1,0 +1,7 @@
+# CI-owned and caller-owned output
+/bin/
+/dist/
+/coverage/
+*.test
+*.out
+
