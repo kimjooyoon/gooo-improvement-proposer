@@ -6,7 +6,7 @@ run_id="${GITHUB_RUN_ID:-ci-local}"
 work_root="${RUNNER_TEMP:-/tmp}/gooo-improvement-proposer-${run_id}"
 binary="$work_root/gooo-improvement-proposer"
 evidence="$work_root/evidence"
-mkdir -p "$work_root" "$evidence"
+mkdir -p "$work_root" "$evidence/cases"
 
 before_status="$(git status --porcelain=v1 -z --untracked-files=all | sha256sum | awk '{print $1}')"
 
