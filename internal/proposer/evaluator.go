@@ -236,7 +236,7 @@ func deriveInputIssues(input Input) ([]UnknownDetail, []string, bool) {
 		if !exact || record.State == StateUnknown {
 			issues = append(issues, UnknownDetail{
 				Stage: "UTILITY_RECORD", Step: "REQUIRE_EXACT_BEFORE_AFTER_PAIR", Reason: unknownMissingUtility,
-				UnknownClass: "DIRECT_MISSING", NextOperation: "COLLECT_EXACT_BEFORE_AFTER_UTILITY_PAIR", BlockedBy: nil,
+				UnknownClass: "DIRECT_MISSING", NextOperation: "COLLECT_EXACT_BEFORE_AFTER_UTILITY_PAIR", BlockedBy: []string{},
 			})
 		}
 	}
@@ -377,7 +377,7 @@ func countBlockedFrontier(candidates []Candidate, unknowns []UnknownDetail) int 
 }
 
 func sortedStrings(values []string) []string {
-	result := append([]string(nil), values...)
+	result := append([]string{}, values...)
 	sort.Strings(result)
 	return result
 }
