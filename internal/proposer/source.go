@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -43,13 +44,7 @@ func ValidateContract(contract Contract) error {
 		return errors.New("INVALID_UNKNOWN_FIELD_DENOMINATOR")
 	}
 	for _, required := range []string{"stage", "step", "reason", "unknown_class", "next_operation", "blocked_by"} {
-		found := false
-		for _, item := range contract.UnknownFields {
-			if item == required {
-				found = true
-				break
-			}
-		}
+		found := slices.Contains(contract.UnknownFields, required)
 		if !found {
 			return fmt.Errorf("MISSING_UNKNOWN_FIELD_%s", required)
 		}
