@@ -11,7 +11,7 @@ const (
 	unknownMissingUtility    = "EXACT_BEFORE_AFTER_UTILITY_MISSING"
 	unknownCapabilityDirect  = "CAPABILITY_EVIDENCE_DIRECT_MISSING"
 	unknownCapabilityBlocked = "CAPABILITY_EVIDENCE_DEPENDENCY_BLOCKED"
-	unknownCounterexample   = "COUNTEREXAMPLE_REPLAY_EVIDENCE_MISSING"
+	unknownCounterexample    = "COUNTEREXAMPLE_REPLAY_EVIDENCE_MISSING"
 	refutedContradiction     = "KNOWN_EVIDENCE_CONTRADICTION"
 	refutedLedgerDigest      = "LEDGER_RELEASE_DIGEST_INVALID"
 	refutedAuthority         = "PROPOSER_AUTHORITY_BOUNDARY_VIOLATED"

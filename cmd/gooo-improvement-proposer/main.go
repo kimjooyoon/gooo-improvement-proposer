@@ -267,11 +267,11 @@ func absolute(path string) bool {
 }
 
 type corpus struct {
-	Schema        string          `json:"schema"`
-	CorpusID      string          `json:"corpus_id"`
-	DenominatorID string          `json:"denominator_id"`
-	Total         int             `json:"total"`
-	Cases         []corpusCase    `json:"cases"`
+	Schema        string       `json:"schema"`
+	CorpusID      string       `json:"corpus_id"`
+	DenominatorID string       `json:"denominator_id"`
+	Total         int          `json:"total"`
+	Cases         []corpusCase `json:"cases"`
 }
 
 type corpusCase struct {
@@ -285,20 +285,20 @@ type corpusCase struct {
 }
 
 type conformanceIndex struct {
-	Schema         string              `json:"schema"`
-	CorpusID       string              `json:"corpus_id"`
-	Total          int                 `json:"total"`
-	Cases          []conformanceCase   `json:"cases"`
-	States         map[string]int      `json:"states"`
+	Schema   string            `json:"schema"`
+	CorpusID string            `json:"corpus_id"`
+	Total    int               `json:"total"`
+	Cases    []conformanceCase `json:"cases"`
+	States   map[string]int    `json:"states"`
 }
 
 type conformanceCase struct {
-	Ordinal          int    `json:"ordinal"`
-	CaseID           string `json:"case_id"`
-	Class            string `json:"class"`
-	State            string `json:"state"`
-	CandidateCount   int    `json:"candidate_count"`
-	EvidenceEdges    int    `json:"evidence_edges"`
-	BlockedFrontier  int    `json:"blocked_frontier"`
-	OutputFiles      int    `json:"output_files"`
+	Ordinal         int    `json:"ordinal"`
+	CaseID          string `json:"case_id"`
+	Class           string `json:"class"`
+	State           string `json:"state"`
+	CandidateCount  int    `json:"candidate_count"`
+	EvidenceEdges   int    `json:"evidence_edges"`
+	BlockedFrontier int    `json:"blocked_frontier"`
+	OutputFiles     int    `json:"output_files"`
 }

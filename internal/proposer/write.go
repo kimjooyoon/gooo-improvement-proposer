@@ -25,7 +25,7 @@ func WriteEvaluation(outputDir string, evaluation Evaluation) error {
 		"semantic-ir.json":        evaluation.SemanticIRRaw,
 		"generated-evaluator.go":  evaluation.GeneratedRaw,
 		"replay-receipt.json":     replayRaw,
-		"human-dossier.md":         []byte(evaluation.Dossier),
+		"human-dossier.md":        []byte(evaluation.Dossier),
 	}
 	for _, name := range FixedOutputFiles {
 		data, ok := files[name]
